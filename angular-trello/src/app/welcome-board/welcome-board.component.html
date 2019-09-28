@@ -1,1 +1,23 @@
-<p>welcome-board works!</p>
+<!-- Welcome Dashboard Start-->
+<div>
+    <!-- Tool bar Row Start-->
+    <div fxLayout="row" class="p15">
+        <!-- Title-->
+         <div fxFlex class="tc--white bold f18">
+            {{boardDetails.boardName}}
+        </div>
+        <!-- Title End-->
+    </div>
+    <!-- Tool bar Row End-->
+
+    <!-- Drag and Drop Row Start -->
+    <div fxLayout="row" class="listConter">
+        <div class="p18" *ngFor="let board of boardDetails.boardList">
+            <app-do-tolist [items]="board" [connected]="connectedTo"></app-do-tolist>
+        </div>
+    </div>
+    <!-- Drag and Drop Row Start -->
+    
+</div>
+<!-- Welcome Dashboard Start End-->
+

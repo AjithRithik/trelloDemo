@@ -1,0 +1,65 @@
+<!-- Doto list component star-->
+<div fxFlex>
+    <!-- Card Start-->
+    <mat-card class="w300 p0 bg-grey">
+        <!-- Title Section-->
+        <div class="p10">{{items.taskListName}}</div>
+        <!-- Title section end-->
+        
+        <!-- Content Section Start-->
+        <mat-card-content>
+            <div
+                cdkDropList
+                id="{{items.tasklistId}}"
+                [cdkDropListData]="items.taskList"
+                class="drag-list"
+                [cdkDropListConnectedTo]="connected"
+                (cdkDropListDropped)="drop($event)">
+                
+                <div class="p5 drag-box" *ngFor="let item of items.taskList" cdkDrag>
+                    <mat-card class="p10">
+                        <div>{{item.taskName}}</div> 
+                    </mat-card>
+                 </div>
+
+            </div>
+        </mat-card-content>
+        <!-- Content section end-->
+
+        <!-- Action section start-->
+        <mat-card-actions class="m0 p0">
+            <div class="absolute r5 b20" *ngIf="!showAddSection">
+                <button mat-mini-fab color="primary" aria-label="add" (click)="showAddSection = true">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div> 
+
+            <!-- Add Input Start-->
+            <div fxLayout="column" *ngIf="showAddSection">
+                <!-- Input Section-->
+                <div class="pl10">
+                    <mat-form-field class="w200 m0">
+                        <input matInput type="text" placeholder="task" [(ngModel)]="value">
+                        <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
+                            <mat-icon>close</mat-icon>
+                        </button>
+                    </mat-form-field> 
+                </div>
+
+                <!-- button section-->
+                <div fxLayout="row" class="pl10 pb10">
+                    <div>
+                        <button mat-flat-button color="primary" (click)="addTask(value)" [disabled]="!value && (value && value.trim() == '')">add</button>
+                    </div>
+                    <div class="pl5">
+                        <mat-icon class="pt5 pointer" (click)="showAddSection = false">close</mat-icon>
+                    </div>
+                </div>
+            </div>  
+            <!-- Add Input End-->
+        </mat-card-actions>
+        <!-- Action section end-->
+    </mat-card>
+    <!-- Card End-->
+</div>
+<!-- Doto list component End--> 

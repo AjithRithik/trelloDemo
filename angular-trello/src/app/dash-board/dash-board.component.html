@@ -1,1 +1,20 @@
-<p>dash-board works!</p>
+<!-- dash Board Container Start-->
+<div fxLayout="row wrap" fxLayoutAlign="start stretch" fxLayoutGap="10px" class="absolute w100p h100p p30 wrap">
+    
+    <div>
+        <button mat-flat-button class="p0 createbn radius10 bold tc--white">
+            <img src="../../assets/savedCard.jpg" alt="" class="createbn radius10">
+            <div fxLayout class="absolute t10 l5">
+                <div fxFlex>My Sample Board</div>
+            </div>
+        </button>
+    </div>
+
+    <div>
+        <button mat-flat-button class="p0 createbn radius10 bold" (click)="openCreateDialog()">
+           <mat-icon class="f28">add</mat-icon>
+        </button>
+    </div>
+
+</div>
+<!-- dash Board Container End-->

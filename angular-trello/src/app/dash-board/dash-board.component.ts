@@ -1,4 +1,9 @@
+import { Board } from './../model/board';
+import { CreateDialogComponent } from './../create-dialog/create-dialog.component';
 import { Component, OnInit } from '@angular/core';
+import {MatDialog, MatDialogRef, MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { v4 as uuid } from 'uuid';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dash-board',
@@ -7,9 +12,27 @@ import { Component, OnInit } from '@angular/core';
 })
 export class DashBoardComponent implements OnInit {
 
-  constructor() { }
+  //Variable Declaration
+  board:Board = new Board();
+  constructor(public dialog: MatDialog, private router: Router) { }
 
   ngOnInit() {
+  }
+
+  openCreateDialog(): void {
+    const dialogRef = this.dialog.open(CreateDialogComponent, {
+      width: '250px',
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.board.boardId = uuid();
+        this.board.boardName = result.trim();
+        this.board.isExist = false;
+        localStorage.setItem(this.board.boardId,JSON.stringify(this.board));
+        this.router.navigate(['taskBoard',this.board.boardId])
+      }
+    });
   }
 
 }

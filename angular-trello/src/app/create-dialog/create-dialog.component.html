@@ -1,0 +1,12 @@
+<div mat-dialog-title>Create Board Title</div>
+<div mat-dialog-content>
+  <mat-form-field>
+    <input matInput placeholder="Title" [(ngModel)]="data">
+  </mat-form-field>
+</div>
+<div mat-dialog-actions>
+    <div fxFlex></div>
+    <div fxLayoutAlign="end end">
+        <button mat-button [disabled]="!data || (data && data.trim() === '')" [mat-dialog-close]="data" cdkFocusInitial>Create</button>
+    </div>
+</div>

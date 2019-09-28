@@ -5,8 +5,8 @@ import { WelcomeBoardComponent } from './welcome-board/welcome-board.component';
 
 
 const routes: Routes = [
-  { path:'dashboard', component: DashBoardComponent },
-  { path:'welcome-board', component: WelcomeBoardComponent },
+  { path:'dashboard', component: DashBoardComponent},
+  { path:'taskBoard/:id', component: WelcomeBoardComponent },
   { path:'', redirectTo:'/dashboard', pathMatch:'full' },
   { path:'**', redirectTo:'/dashboard', pathMatch:'full' }
 ];
