@@ -12,12 +12,17 @@
 
     <!-- Drag and Drop Row Start -->
     <div fxLayout="row" class="listConter">
-        <div class="p18" *ngFor="let board of boardDetails.boardList">
-            <app-do-tolist [items]="board" [connected]="connectedTo"></app-do-tolist>
+        <div class="p20 relative" *ngFor="let board of boardDetails.boardList">
+            <app-do-tolist [(items)]="board" (modelChange)="triggerSave($event)" [connected]="connectedTo"></app-do-tolist>
         </div>
     </div>
     <!-- Drag and Drop Row Start -->
     
+    <div class="absolute b20 r30 zIndex">
+        <button mat-fab color="primary" (click)="openCreateDialog()">
+            <mat-icon>add</mat-icon>
+        </button>
+    </div>
 </div>
 <!-- Welcome Dashboard Start End-->
 

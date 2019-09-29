@@ -7,5 +7,6 @@ export class BoardList {
     taskListName: string = undefined;
     isDefault: number = 1;
     taskList: Array<TaskList>= new Array<TaskList>();
+    updatedOn: Date = new Date();
 }
 

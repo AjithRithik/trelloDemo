@@ -3,63 +3,95 @@
     <!-- Card Start-->
     <mat-card class="w300 p0 bg-grey">
         <!-- Title Section-->
-        <div class="p10">{{items.taskListName}}</div>
+        <div class="p10" fxLayout fxLayoutAlign="start center">
+            <div>{{items.taskListName}}</div> 
+            <div *ngIf="items.taskList.length > 0" class="ml20">
+                <button mat-mini-fab color="bgWhite">
+                    {{items.taskList.length}}
+                </button>
+            </div>    
+        </div>
         <!-- Title section end-->
         
         <!-- Content Section Start-->
         <mat-card-content>
-            <div
-                cdkDropList
-                id="{{items.tasklistId}}"
-                [cdkDropListData]="items.taskList"
-                class="drag-list"
-                [cdkDropListConnectedTo]="connected"
-                (cdkDropListDropped)="drop($event)">
-                
-                <div class="p5 drag-box" *ngFor="let item of items.taskList" cdkDrag>
-                    <mat-card class="p10">
-                        <div>{{item.taskName}}</div> 
-                    </mat-card>
-                 </div>
+            <div>
+                <div
+                    cdkDropList
+                    id="{{items.tasklistId}}"
+                    [cdkDropListData]="items.taskList"
+                    class="drag-list"
+                    [cdkDropListConnectedTo]="connected"
+                    (cdkDropListDropped)="drop($event)">
+                    
+                    <div *ngIf="items.taskList && items.taskList.length > 0">
+                            <div class="p8 drag-box" *ngFor="let item of items.taskList; index as i" cdkDrag
+                            (mouseover)="item.showEdit = true" (mouseleave)="item.showEdit = false">
+                            <mat-card class="p8" *ngIf="!item.disabled">
+                                <div fxLayout="row" class="f16">
+                                    <div fxFlex *ngIf="!item.showUpdate">{{item.taskName}}</div> 
+                                    <div>
+                                        <div fxLayoutAlign="end center" *ngIf="!item.showUpdate && item.showEdit" class="pointer">
+                                            <div class="hoverIcon" (click)="item.showUpdate = true; item.copyValue = item.taskName">
+                                                <mat-icon class="f16">edit</mat-icon>
+                                            </div>
+                                            <div class="hoverIcon pl10" (click)="deleteItem(i)">
+                                                <mat-icon class="f16">delete</mat-icon>
+                                            </div>
+                                        </div>
+                                        
+                                        <div *ngIf="item.showUpdate">
+                                            <mat-form-field>
+                                                <input matInput cdkFocusInitial="true" [(ngModel)]="item.taskName" (blur)="editTask(item)">
+                                            </mat-form-field>
+                                        </div>
+    
+                                    </div> 
+                                </div>
+                            </mat-card>
+                         </div>
+                    </div>
 
+                    <div *ngIf="items.taskList.length == 0" cdkDrag class="center pt10 pb10">Click the fab menu to create tasks</div>
+                </div>
             </div>
         </mat-card-content>
         <!-- Content section end-->
 
         <!-- Action section start-->
         <mat-card-actions class="m0 p0">
-            <div class="absolute r5 b20" *ngIf="!showAddSection">
-                <button mat-mini-fab color="primary" aria-label="add" (click)="showAddSection = true">
-                    <mat-icon>add</mat-icon>
-                </button>
-            </div> 
-
             <!-- Add Input Start-->
-            <div fxLayout="column" *ngIf="showAddSection">
-                <!-- Input Section-->
-                <div class="pl10">
-                    <mat-form-field class="w200 m0">
-                        <input matInput type="text" placeholder="task" [(ngModel)]="value">
-                        <button mat-button *ngIf="value" matSuffix mat-icon-button aria-label="Clear" (click)="value=''">
-                            <mat-icon>close</mat-icon>
-                        </button>
-                    </mat-form-field> 
-                </div>
+            <form #addForm="ngForm">
+                <div fxLayout="column" *ngIf="showAddSection">
+                    <!-- Input Section-->
+                    <div class="pl10">
+                        <mat-form-field class="w200 m0">
+                            <input matInput type="text" name="task" placeholder="task" [(ngModel)]="taskValue" cdkFocusInitial="true">
+                            <button type="button" mat-button *ngIf="taskValue" matSuffix mat-icon-button aria-label="Clear" (click)="taskValue=''">
+                                <mat-icon>close</mat-icon>
+                            </button>
+                        </mat-form-field> 
+                    </div>
 
-                <!-- button section-->
-                <div fxLayout="row" class="pl10 pb10">
-                    <div>
-                        <button mat-flat-button color="primary" (click)="addTask(value)" [disabled]="!value && (value && value.trim() == '')">add</button>
+                    <!-- button section-->
+                    <div fxLayout="row" class="pl10 pb10">
+                        <div>
+                            <button mat-flat-button color="primary" (click)="addTask(taskValue)" [disabled]="!taskValue || (taskValue && taskValue.trim() === '')">add</button>
+                        </div>
+                        <div class="pl5">
+                            <mat-icon class="pt5 pointer" (click)="showAddSection = false">close</mat-icon>
+                        </div>
                     </div>
-                    <div class="pl5">
-                        <mat-icon class="pt5 pointer" (click)="showAddSection = false">close</mat-icon>
-                    </div>
-                </div>
-            </div>  
+                </div>  
+            </form>
             <!-- Add Input End-->
         </mat-card-actions>
         <!-- Action section end-->
     </mat-card>
-    <!-- Card End-->
+    <!-- Card End--> 
 </div>
 <!-- Doto list component End--> 
+
+<div class="absolute r30 t0" *ngIf="!showAddSection">
+    <app-toggle-fab [data]="item" (triggerClick)="onButtonClick($event)"></app-toggle-fab>
+</div>

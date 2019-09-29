@@ -1,15 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
-
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DashBoardComponent } from './dash-board/dash-board.component';
 import { WelcomeBoardComponent } from './welcome-board/welcome-board.component';
-import {platformBrowserDynamic} from '@angular/platform-browser-dynamic';
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
+import { NgModule } from '@angular/core';
 import { SharedModule } from './shared/shared.module';
 import { DoTolistComponent } from './do-tolist/do-tolist.component';
 import { CreateDialogComponent } from './create-dialog/create-dialog.component';
+import { ResizeDirective } from './resize.directive';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { ToggleFabComponent } from './toggle-fab/toggle-fab.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,10 @@ import { CreateDialogComponent } from './create-dialog/create-dialog.component';
     DashBoardComponent,
     WelcomeBoardComponent,
     DoTolistComponent,
-    CreateDialogComponent
+    CreateDialogComponent,
+    ResizeDirective,
+    ConfirmationDialogComponent,
+    ToggleFabComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +30,7 @@ import { CreateDialogComponent } from './create-dialog/create-dialog.component';
     SharedModule,
     BrowserAnimationsModule
   ],
-  entryComponents:[CreateDialogComponent],
+  entryComponents:[CreateDialogComponent, ConfirmationDialogComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

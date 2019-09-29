@@ -1,12 +1,15 @@
-<div mat-dialog-title>Create Board Title</div>
-<div mat-dialog-content>
-  <mat-form-field>
-    <input matInput placeholder="Title" [(ngModel)]="data">
-  </mat-form-field>
-</div>
-<div mat-dialog-actions>
-    <div fxFlex></div>
-    <div fxLayoutAlign="end end">
-        <button mat-button [disabled]="!data || (data && data.trim() === '')" [mat-dialog-close]="data" cdkFocusInitial>Create</button>
-    </div>
-</div>
+<form #createForm="ngForm">
+  <div mat-dialog-title *ngIf="data.from === 'CREATE_BOARD'">Create Board</div>
+  <div mat-dialog-title *ngIf="data.from === 'CREATE_TASK'">Create Task</div>
+  <div mat-dialog-content>
+    <mat-form-field>
+      <input matInput name="taskTitel" placeholder="Title" [(ngModel)]="data.title" cdkFocusInitial="true">
+    </mat-form-field>
+  </div>
+  <div mat-dialog-actions>
+      <div fxFlex></div>
+      <div fxLayoutAlign="end end">
+          <button mat-button [disabled]="!data.title || (data.title && data.title.trim() === '')" [mat-dialog-close]="data" cdkFocusInitial>Create</button>
+      </div>
+  </div>
+</form>

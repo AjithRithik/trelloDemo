@@ -1,3 +1,4 @@
+import { Router } from '@angular/router';
 import { Component } from '@angular/core';
 
 @Component({
@@ -6,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'angular-trello';
+  constructor(private router: Router){
+
+  }
+
+  gotoHome(url){
+    this.router.navigate([url]);
+  }
 }

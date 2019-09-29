@@ -1,0 +1,14 @@
+<div fxFlex fxLayout="row-reverse"> 
+    <div>
+        <button mat-mini-fab (click)="onToggleFab()" matTooltipPosition="above" matTooltip="Click to toggle">
+            <mat-icon [@fabToggler]="{value: fabTogglerState}">menu</mat-icon>
+        </button>
+    </div>
+    <div [@speedDialStagger]="buttons.length" fxFlex fxLayout="row-reverse">
+        <div>
+            <button mat-mini-fab *ngFor="let btn of buttons" (click)="triggerClick.emit({'key':btn.key})" matTooltipPosition="above" class="mr10" [matTooltip]="btn.value">
+                <mat-icon>{{btn.icon}}</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

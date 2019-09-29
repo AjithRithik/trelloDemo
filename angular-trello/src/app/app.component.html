@@ -3,7 +3,11 @@
     <!-- Header-->
     <div>
         <div fxLayout="row" class="p10 navBar">
-            <div fxFlex fxLayoutAlign="start center"></div>
+            <div fxFlex fxLayoutAlign="start center">
+                <button mat-button (click)="gotoHome('dashBoard')">
+                        <mat-icon>home</mat-icon>
+                </button>
+            </div>
             <div fxFlex fxLayoutAlign="center center" class="bold caps">Trello</div>
             <div fxFlex fxLayoutAlign="end center">
                 <div>
