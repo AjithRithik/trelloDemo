@@ -8,5 +8,6 @@ export class BoardList {
     isDefault: number = 1;
     taskList: Array<TaskList>= new Array<TaskList>();
     updatedOn: Date = new Date();
+    isUpdate?: boolean = false;
 }
 

@@ -1,10 +1,12 @@
 <!-- dash Board Container Start-->
-<div fxLayout="row wrap" fxLayoutAlign="start stretch" fxLayoutGap="10px" class="absolute w100p h100p p30 wrap">
+<div fxLayout.lt-md="column" fxLayout="row wrap" fxLayoutAlign="start stretch"
+fxLayoutAlign.lt-md="start center"
+fxLayoutGap="10px" fxLayoutGap.lt-md="30px" class="dashBoardLayout">
     
-    <div *ngFor="let board of createdList">
-        <button mat-flat-button class="p0 createbn radius10 bold tc--white" (click)="openBoard('taskBoard', board)">
+    <div *ngFor="let board of createdList" class="createbn radius10">
+        <button mat-flat-button class="p0 radius10 bold tc--white" (click)="openBoard('taskBoard', board)">
             <img src="../../assets/savedCard.jpg" alt="" class="createbn radius10 blur">
-            <div fxLayout class="absolute t0 l10">
+            <div fxFlex fxLayout class="absolute t0 l10">
                 <div fxFlex>{{board.boardName}}</div>
             </div>
         </button>

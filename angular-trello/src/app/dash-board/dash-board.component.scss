@@ -9,3 +9,11 @@
 .radius10{
     border-radius: 10px;
 }
+
+.dashBoardLayout{
+    position: absolute;
+    height: calc(100% - 100px);
+    width: 100%;
+    overflow: auto;
+    padding: 30px;
+}

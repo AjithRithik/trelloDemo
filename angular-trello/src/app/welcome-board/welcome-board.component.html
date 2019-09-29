@@ -12,7 +12,7 @@
 
     <!-- Drag and Drop Row Start -->
     <div fxLayout="row" class="listConter">
-        <div class="p20 relative" *ngFor="let board of boardDetails.boardList">
+        <div class="p18 relative" *ngFor="let board of boardDetails.boardList">
             <app-do-tolist [(items)]="board" (modelChange)="triggerSave($event)" [connected]="connectedTo"></app-do-tolist>
         </div>
     </div>

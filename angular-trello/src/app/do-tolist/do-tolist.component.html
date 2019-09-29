@@ -3,19 +3,26 @@
     <!-- Card Start-->
     <mat-card class="w300 p0 bg-grey">
         <!-- Title Section-->
-        <div class="p10" fxLayout fxLayoutAlign="start center">
-            <div>{{items.taskListName}}</div> 
-            <div *ngIf="items.taskList.length > 0" class="ml20">
-                <button mat-mini-fab color="bgWhite">
-                    {{items.taskList.length}}
-                </button>
-            </div>    
+        <div class="p10">
+            <div fxLayout fxLayoutAlign="start center" *ngIf="!items.isUpdate">
+                <div class="pointer" (click)="items.isUpdate = true; items.copyValue= items.taskListName; setInputFocus()">{{items.taskListName}}</div> 
+                <div *ngIf="items.taskList.length > 0" class="ml20">
+                    <button mat-mini-fab color="bgWhite">
+                        {{items.taskList.length}}
+                    </button>
+                </div>    
+            </div>
+            <div *ngIf="items.isUpdate">
+                <mat-form-field>
+                    <input matInput name="taskName" [(ngModel)]="items.taskListName" (blur)="editTaskName(items)"/>
+                </mat-form-field>
+            </div>
         </div>
         <!-- Title section end-->
         
         <!-- Content Section Start-->
         <mat-card-content>
-            <div>
+            <div resize class="overflowAuto" #scrollElement>
                 <div
                     cdkDropList
                     id="{{items.tasklistId}}"
@@ -32,7 +39,7 @@
                                     <div fxFlex *ngIf="!item.showUpdate">{{item.taskName}}</div> 
                                     <div>
                                         <div fxLayoutAlign="end center" *ngIf="!item.showUpdate && item.showEdit" class="pointer">
-                                            <div class="hoverIcon" (click)="item.showUpdate = true; item.copyValue = item.taskName">
+                                            <div class="hoverIcon" (click)="item.showUpdate = true; item.copyValue = item.taskName; setInputFocus()">
                                                 <mat-icon class="f16">edit</mat-icon>
                                             </div>
                                             <div class="hoverIcon pl10" (click)="deleteItem(i)">
@@ -42,7 +49,7 @@
                                         
                                         <div *ngIf="item.showUpdate">
                                             <mat-form-field>
-                                                <input matInput cdkFocusInitial="true" [(ngModel)]="item.taskName" (blur)="editTask(item)">
+                                                <input matInput  [(ngModel)]="item.taskName" (blur)="editTask(item)">
                                             </mat-form-field>
                                         </div>
     
@@ -54,39 +61,35 @@
 
                     <div *ngIf="items.taskList.length == 0" cdkDrag class="center pt10 pb10">Click the fab menu to create tasks</div>
                 </div>
+
+                <!-- Add Input Start-->
+                <form #addForm="ngForm">
+                    <div fxLayout="column" *ngIf="showAddSection">
+                        <!-- Input Section-->
+                        <div class="pl10">
+                            <mat-form-field class="w200 m0">
+                                <input matInput type="text" name="task" placeholder="task" [(ngModel)]="taskValue" cdkFocusInitial="true">
+                                <button type="button" mat-button *ngIf="taskValue" matSuffix mat-icon-button aria-label="Clear" (click)="taskValue=''">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-form-field> 
+                        </div>
+    
+                        <!-- button section-->
+                        <div fxLayout="row" class="pl10 pb10">
+                            <div>
+                                <button mat-flat-button color="primary" (click)="addTask(taskValue)" [disabled]="!taskValue || (taskValue && taskValue.trim() === '')">add</button>
+                            </div>
+                            <div class="pl5">
+                                <mat-icon class="pt5 pointer" (click)="showAddSection = false">close</mat-icon>
+                            </div>
+                        </div>
+                    </div>  
+                </form>
+                <!-- Add Input End-->
             </div>
         </mat-card-content>
         <!-- Content section end-->
-
-        <!-- Action section start-->
-        <mat-card-actions class="m0 p0">
-            <!-- Add Input Start-->
-            <form #addForm="ngForm">
-                <div fxLayout="column" *ngIf="showAddSection">
-                    <!-- Input Section-->
-                    <div class="pl10">
-                        <mat-form-field class="w200 m0">
-                            <input matInput type="text" name="task" placeholder="task" [(ngModel)]="taskValue" cdkFocusInitial="true">
-                            <button type="button" mat-button *ngIf="taskValue" matSuffix mat-icon-button aria-label="Clear" (click)="taskValue=''">
-                                <mat-icon>close</mat-icon>
-                            </button>
-                        </mat-form-field> 
-                    </div>
-
-                    <!-- button section-->
-                    <div fxLayout="row" class="pl10 pb10">
-                        <div>
-                            <button mat-flat-button color="primary" (click)="addTask(taskValue)" [disabled]="!taskValue || (taskValue && taskValue.trim() === '')">add</button>
-                        </div>
-                        <div class="pl5">
-                            <mat-icon class="pt5 pointer" (click)="showAddSection = false">close</mat-icon>
-                        </div>
-                    </div>
-                </div>  
-            </form>
-            <!-- Add Input End-->
-        </mat-card-actions>
-        <!-- Action section end-->
     </mat-card>
     <!-- Card End--> 
 </div>

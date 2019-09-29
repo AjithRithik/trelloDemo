@@ -2,7 +2,7 @@ import { ConfirmationDialogComponent } from './../confirmation-dialog/confirmati
 import { MatDialog } from '@angular/material/dialog';
 import { BoardList } from './../model/boardList';
 import { TaskList } from './../model/tasklist';
-import { Component, OnInit, Input, HostListener, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ElementRef, ViewChild } from '@angular/core';
 import {CdkDragDrop, moveItemInArray, transferArrayItem} from '@angular/cdk/drag-drop';
 import { v4 as uuid } from 'uuid';
 
@@ -21,6 +21,8 @@ export class DoTolistComponent implements OnInit {
 
   showAddSection: boolean = false;
 
+  @ViewChild('scrollElement', {static: false}) el : ElementRef;
+
   @Input()
   get items(): BoardList { return this._resultValue};
   set items(value: BoardList){
@@ -35,7 +37,14 @@ export class DoTolistComponent implements OnInit {
     this.setInitialFlagAsFalse();
   }
 
+  scrollToBottom(){
+    setTimeout(()=>{
+      this.el.nativeElement.scrollTop = this.el.nativeElement.scrollHeight;
+    },50);
+  }
+
   setInitialFlagAsFalse(){
+    this.items.isUpdate = false;
     if(this.items.taskList.length && this.items.taskList.length > 0){
       Array.from(this.items.taskList,(item:TaskList,index)=>{
         item.showEdit = false;
@@ -55,11 +64,6 @@ export class DoTolistComponent implements OnInit {
     this.modelChange.emit({data:this.items, key:'ADD'});
   }
 
-  // @HostListener('resize', ['$event'])
-  // onResize(event) {
-  //   event.target.innerWidth; 
-  // }
-
   drop(event: CdkDragDrop<string[]>) {
     if (event.previousContainer === event.container) {
       moveItemInArray(event.container.data, event.previousIndex, event.currentIndex);
@@ -75,6 +79,7 @@ export class DoTolistComponent implements OnInit {
   onButtonClick(event){
     if(event.key === 'ADD'){
       this.showAddSection = true;
+      this.scrollToBottom();
     }else if(event.key === 'DELETE'){
       this.openConfirmation();
     }
@@ -87,6 +92,15 @@ export class DoTolistComponent implements OnInit {
       item.taskName = item.copyValue;
     }
     item.showUpdate = false;
+  }
+
+  editTaskName(item){
+    if(item.taskListName && item.taskListName.trim() !== ''){
+      this.modelChange.emit({data:this.items, key:'UPDATE'});
+    }else{
+      item.taskListName = item.copyValue;
+    }
+    item.isUpdate = false;
   }
 
   deleteItem(index){
@@ -111,4 +125,10 @@ export class DoTolistComponent implements OnInit {
     });
   }
 
+  setInputFocus(){
+    setTimeout(function(){
+      let el = document.querySelectorAll('input');
+      el[0].focus();
+    },200);
+  }
 }
