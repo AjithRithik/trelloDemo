@@ -9,5 +9,6 @@ export class BoardList {
     taskList: Array<TaskList>= new Array<TaskList>();
     updatedOn: Date = new Date();
     isUpdate?: boolean = false;
+    copyValue?: string;
 }
 

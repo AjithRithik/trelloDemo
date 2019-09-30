@@ -4,13 +4,9 @@
     <mat-card class="w300 p0 bg-grey">
         <!-- Title Section-->
         <div class="p10">
-            <div fxLayout fxLayoutAlign="start center" *ngIf="!items.isUpdate">
-                <div class="pointer" (click)="items.isUpdate = true; items.copyValue= items.taskListName; setInputFocus()">{{items.taskListName}}</div> 
-                <div *ngIf="items.taskList.length > 0" class="ml20">
-                    <button mat-mini-fab color="bgWhite">
-                        {{items.taskList.length}}
-                    </button>
-                </div>    
+            <div fxLayout="row" fxLayoutAlign="center center" *ngIf="!items.isUpdate">
+                <div class="pointer ellipse w150 center" [matTooltip]="items.taskListName"
+                (click)="!items.isDefault && showInput()">{{items.taskListName}}</div>   
             </div>
             <div *ngIf="items.isUpdate">
                 <mat-form-field>
@@ -59,7 +55,11 @@
                          </div>
                     </div>
 
-                    <div *ngIf="items.taskList.length == 0" cdkDrag class="center pt10 pb10">Click the fab menu to create tasks</div>
+                    <div class="p5" cdkDrag [cdkDragDisabled]="true">
+                        <button mat-button class="w100p" *ngIf="items.taskList.length == 0 && !showAddSection" (click)="showAddSection = true; scrollToBottom()">
+                                Click to create new task
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Add Input Start-->
@@ -96,5 +96,12 @@
 <!-- Doto list component End--> 
 
 <div class="absolute r30 t0" *ngIf="!showAddSection">
-    <app-toggle-fab [data]="item" (triggerClick)="onButtonClick($event)"></app-toggle-fab>
+    <app-toggle-fab [data]="items" (triggerClick)="onButtonClick($event)"></app-toggle-fab>
 </div>
+
+<div *ngIf="items.taskList.length > 0" class="absolute t0 l30">
+    <button mat-mini-fab color="bgWhite">
+        {{items.taskList.length}}
+    </button>
+</div>  
+

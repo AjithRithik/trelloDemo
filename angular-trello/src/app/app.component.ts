@@ -11,6 +11,7 @@ export class AppComponent {
 
   }
 
+  /** Function to navigate to DashBoard page**/
   gotoHome(url){
     this.router.navigate([url]);
   }

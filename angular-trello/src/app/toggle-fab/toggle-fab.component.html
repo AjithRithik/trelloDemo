@@ -5,8 +5,16 @@
         </button>
     </div>
     <div [@speedDialStagger]="buttons.length" fxFlex fxLayout="row-reverse">
-        <div>
-            <button mat-mini-fab *ngFor="let btn of buttons" (click)="triggerClick.emit({'key':btn.key})" matTooltipPosition="above" class="mr10" [matTooltip]="btn.value">
+        <div *ngFor="let btn of buttons">
+            <button *ngIf="(btn.key === 'CLEAR' && data.taskList.length > 0)" mat-mini-fab (click)="triggerParent(btn)" matTooltipPosition="above" class="mr10" [matTooltip]="btn.value">
+                <mat-icon>{{btn.icon}}</mat-icon>
+            </button>
+
+            <button *ngIf="btn.key === 'DELETE'" mat-mini-fab (click)="triggerParent(btn)" matTooltipPosition="above" class="mr10" [matTooltip]="btn.value">
+                <mat-icon>{{btn.icon}}</mat-icon>
+            </button>
+
+            <button *ngIf="btn.key=== 'ADD'" mat-mini-fab (click)="triggerParent(btn)" matTooltipPosition="above" class="mr10" [matTooltip]="btn.value">
                 <mat-icon>{{btn.icon}}</mat-icon>
             </button>
         </div>

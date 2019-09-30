@@ -23,10 +23,12 @@ export class DashBoardComponent implements OnInit {
     }
   }
 
+  /**Function to open the Board**/
   openBoard(url,board){
     this.router.navigate([url,board.boardId]);
   }
 
+  //Function to create dialog box
   openCreateDialog(): void {
     const dialogRef = this.dialog.open(CreateDialogComponent, {
       width: '250px',

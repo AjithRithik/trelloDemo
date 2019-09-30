@@ -137,6 +137,12 @@ html, body {
     overflow-y: auto; 
 }
 
+.ellipse{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
 .caps{
     text-transform: uppercase;
 }

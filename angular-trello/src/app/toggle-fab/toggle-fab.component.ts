@@ -16,21 +16,45 @@ export class ToggleFabComponent implements OnInit {
 
   @Input('data') data:BoardList;
 
-  ngOnInit() {
-  }
+  fabButtons:any = [];
 
-  fabButtons = [
+  defaultBtn = [
         {
           icon: 'add',
           value : 'Add',
           key: 'ADD'
         },
         {
+          icon: 'clear',
+          value : 'Clear',
+          key: 'CLEAR'
+        }
+      ];
+
+  newBtn = [
+        {
+          icon: 'add',
+          value : 'Add',
+          key: 'ADD'
+        },
+        {
           icon: 'delete',
           value : 'Delete',
           key: 'DELETE'
-        }
+        },
+        {
+          icon: 'clear',
+          value : 'Clear',
+          key: 'CLEAR'
+        }
       ];
+  ngOnInit() {
+      if(this.data.isDefault){
+         this.fabButtons = this.defaultBtn; 
+      }else{
+        this.fabButtons = this.newBtn;
+      }
+  }
     
   buttons:any = [];
   fabTogglerState = 'inactive';
@@ -47,5 +71,10 @@ export class ToggleFabComponent implements OnInit {
   onToggleFab() {
     this.buttons.length  ? this.hideItems() : this.showItems();
   }
+
+  triggerParent(btn){
+    this.triggerClick.emit({'key':btn.key});
+    this.hideItems()
+  }
 
 }

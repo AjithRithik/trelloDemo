@@ -37,6 +37,7 @@ export class DoTolistComponent implements OnInit {
     this.setInitialFlagAsFalse();
   }
 
+
   scrollToBottom(){
     setTimeout(()=>{
       this.el.nativeElement.scrollTop = this.el.nativeElement.scrollHeight;
@@ -62,6 +63,7 @@ export class DoTolistComponent implements OnInit {
     this.taskValue='';
     this.items.updatedOn = new Date();
     this.modelChange.emit({data:this.items, key:'ADD'});
+    this.scrollToBottom()
   }
 
   drop(event: CdkDragDrop<string[]>) {
@@ -81,7 +83,9 @@ export class DoTolistComponent implements OnInit {
       this.showAddSection = true;
       this.scrollToBottom();
     }else if(event.key === 'DELETE'){
-      this.openConfirmation();
+      this.openConfirmation('LIST');
+    }else if(event.key === 'CLEAR'){
+      this.openConfirmation(event.key);
     }
   }
 
@@ -104,22 +108,28 @@ export class DoTolistComponent implements OnInit {
   }
 
   deleteItem(index){
-    this.openConfirmation(true,index);
+    this.openConfirmation('TASK',index);
   }
 
-  openConfirmation(isFromSingleTask?,index?): void {
+  openConfirmation(deletekey?,index?): void {
     const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '300px'
+      width: '300px',
+      data:{
+        key : deletekey
+      }
     });
 
     dialogRef.afterClosed().subscribe(result => {
       if(result){
-        if(isFromSingleTask){
+        if(deletekey === 'TASK'){
           this.items.taskList.splice(index,1);
           this.items.updatedOn = new Date(); 
           this.modelChange.emit({data:this.items, key:'REMOVE'}); 
-        }else{
+        }else if(deletekey === 'LIST'){
           this.modelChange.emit({data:this.items, key:'DELETE'});
+        }else if(deletekey === 'CLEAR'){
+          this.items.taskList = [];
+          this.modelChange.emit({data:this.items, key:'CLEAR'});
         }
       }
     });
@@ -130,5 +140,11 @@ export class DoTolistComponent implements OnInit {
       let el = document.querySelectorAll('input');
       el[0].focus();
     },200);
+  }
+
+  showInput(){
+    this.items.isUpdate = true; 
+    this.items.copyValue= this.items.taskListName; 
+    this.setInputFocus()
   }
 }

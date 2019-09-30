@@ -1,8 +1,9 @@
+import { ConfirmationDialogComponent } from './../confirmation-dialog/confirmation-dialog.component';
 import { CreateDialogComponent } from './../create-dialog/create-dialog.component';
 import { BoardList } from './../model/boardList';
 import { TaskList } from './../model/tasklist';
 import { Board } from './../model/board';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { v4 as uuid } from 'uuid';
 import { ActivatedRoute, Router } from '@angular/router';
 import {MatDialog} from '@angular/material/dialog';
@@ -17,6 +18,8 @@ export class WelcomeBoardComponent implements OnInit {
   /**variable Declaration**/
   boardDetails: Board = new Board();
   connectedTo = [];
+
+
   defaultValues:Array<BoardList> = [
     {
       tasklistId: uuid(),
@@ -54,7 +57,6 @@ export class WelcomeBoardComponent implements OnInit {
     }
 
   ngOnInit() {
-
     if(!this.boardDetails.isExist){
         this.boardDetails.isExist = true;
         this.boardDetails.boardList = this.defaultValues;
@@ -64,6 +66,7 @@ export class WelcomeBoardComponent implements OnInit {
     this.setConnetedToList();
   }
 
+  //set connected list for Drag and Drop
   setConnetedToList(){
     if(this.boardDetails.boardList && this.boardDetails.boardList.length > 0){
       this.boardDetails.boardList.forEach((task:BoardList) => { 
@@ -72,6 +75,7 @@ export class WelcomeBoardComponent implements OnInit {
     }
   }
 
+  //trigger function to set the value in local storage
   triggerSave(event){
     if(event.key === 'DELETE'){
       this.deleteTaskList(event.data);
@@ -81,6 +85,7 @@ export class WelcomeBoardComponent implements OnInit {
     this.setConnetedToList();
   }
 
+  //Delete the entire task
   deleteTaskList(data:BoardList){
     this.boardDetails.boardList.forEach((eachBoard:BoardList, index)=>{
        if(eachBoard.tasklistId === data.tasklistId){
@@ -89,6 +94,7 @@ export class WelcomeBoardComponent implements OnInit {
     });
   }
 
+  //set the value to local storage
   setLocalStorage(key, value){
     localStorage.setItem(key,JSON.stringify(value));
   }
@@ -116,5 +122,46 @@ export class WelcomeBoardComponent implements OnInit {
     });
   }
 
+  //Clear all completed task
+  clearCompleteTask(){
+    let compleString = 'Completed';
+    if(this.boardDetails.boardList){
+        this.boardDetails.boardList.forEach((item)=>{
+          if((item.taskListName.toUpperCase() === compleString.toUpperCase()) && item.isDefault){
+            item.taskList = [];
+          }
+        })
+    }
+    this.setLocalStorage(this.boardDetails.boardId, this.boardDetails);
+  }
+
+  openConfirmation(deletekey): void {
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '300px',
+      data:{
+        key : deletekey
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if(result){
+        this.clearCompleteTask()
+      }
+    });
+  }
+
+  //Function to show the completed button or nor
+  checkCompletedbtn(){
+    let result = false;
+    let compleString = 'Completed';
+    if(this.boardDetails.boardList && this.boardDetails.boardList.length > 0){
+      this.boardDetails.boardList.forEach((list)=>{
+        if((list.taskListName.toUpperCase() === compleString.toUpperCase()) && list.isDefault){
+            result = (list.taskList.length > 0) ? true : false;
+        }
+      })
+    }
+    return result;
+  }
 
 }
