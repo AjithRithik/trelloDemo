@@ -1,0 +1,171 @@
+/* You can add global styles to this file, and also import other style files */
+@import "~@angular/material/prebuilt-themes/indigo-pink.css";
+
+/*common Classes  for width, margin,padding, height, fontSize*/
+
+//Need common css genarate using this
+$widthRange: 100; // used in the width for loop
+$layoutRange: 100; //used in margin for loop
+$fontRange: 40; // used in the font for loop
+$fontWeightRange: 10; // used in the font weight for loop
+$sides: (top, bottom, left, right);
+//generate width and height 
+@for $i from 1 through $widthRange {
+    .w#{$i*5} {
+        width: $i*5px !important;
+    }
+    .w#{$i*5}p {
+        width: percentage($i*5/100) !important;
+    }
+    .wm#{$i*5}p {
+        min-width: percentage($i*5/100) !important;
+        max-width: percentage($i*5/100) !important;
+    }
+    .h#{$i*5}p{
+        height: percentage($i*5/100) !important;
+    }
+    .mwidth#{$i*10} {
+        max-width: $i*10px !important;
+        min-width: $i*10px !important;
+    }
+    .h#{$i*5} {
+        height: $i*5px !important;
+    }
+    .height#{$i*10} {
+        max-height: $i*10px !important;
+        min-height: $i*10px !important;
+    }
+}
+
+//generate padding,margin layouts
+@for $i from 0 through $layoutRange {
+    @each $side in $sides {
+        .m#{str-slice($side, 0, 1)}#{$i} {
+            margin-#{$side}: #{$i}px !important;
+        }
+        .p#{str-slice($side, 0, 1)}#{$i} {
+            padding-#{$side}: #{$i}px !important;
+        }
+        .m#{$i} {
+            margin: #{$i}px !important;
+        }
+        .p#{$i} {
+            padding: #{$i}px !important;
+        }
+    }
+}
+
+//generate font size.
+@for $i from 10 through $fontRange {
+    .f#{$i} {
+        font-size: #{$i}px !important;
+    }
+}
+
+//generate top,bottom, left, right value.
+@for $i from 0 through $layoutRange {
+    .t#{$i} {
+        top: #{$i}px !important;
+    }
+    .b#{$i} {
+        bottom: #{$i}px !important;
+    }
+    .l#{$i} {
+        left: #{$i}px !important;
+    }
+    .r#{$i} {
+        right: #{$i}px !important;
+    }
+}
+
+//genrate font weight.
+@for $i from 1 through $fontWeightRange {
+    .fw#{$i*100} {
+        font-weight: #{$i*100} !important;
+    }
+}  
+
+.bgTheme{
+    background: url('./assets/trelloBg.jpg') no-repeat;
+    height: 100%;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+    background-position: 50%;
+    background-size: cover;
+}
+
+html, body {
+    margin:0; /* remove default margin */
+    padding:0; /* remove default padding */
+    width:100%; /* take full browser width */
+    height:100%; /* take full browser height*/
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    user-select: none;
+}
+
+.zIndex{
+    z-index: 1;
+}
+
+.right{
+    float: right;
+}
+
+.left{
+    float: left;
+}
+
+.absolute{
+    position: absolute;
+}
+
+.relative{
+    position: relative;
+}
+
+.pointer{
+    cursor: pointer;
+}
+
+.center{
+    text-align: center;
+}
+
+.overflowAuto{
+    overflow-x: auto;
+    overflow-y: auto; 
+}
+
+.ellipse{
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.caps{
+    text-transform: uppercase;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.tc--white{
+    color: #ffffff;
+}
+
+.blur{
+    filter: blur(1px);
+}
+
+.bgWhite{
+    background: rgb(255, 255, 255);
+    color: #ffffff;
+}
+
+
+/** Custom CSS**/
+.mat-form-field-infix{
+    margin: 0px !important;
+}

@@ -1,0 +1,17 @@
+
+<div mat-dialog-title *ngIf="data.key !== 'CLEAR'">Delete Confirmation</div>
+<div mat-dialog-title *ngIf="data.key === 'CLEAR'">Clear Data Confirmation</div>
+<div mat-dialog-content>
+    <div class="f14" *ngIf="data.key === 'TASK'">Are you sure? you want to delete this task?</div>
+    <div class="f14" *ngIf="data.key === 'LIST'">Are you sure? you want to delete this entire list?</div>
+    <div class="f14" *ngIf="data.key === 'COMPLETED'">Are you sure? you want to clear All the Completed Tasks?</div>
+    <div class="f14" *ngIf="data.key === 'CLEAR'">Are you sure? you want to clear All Tasks from this list?</div>
+</div>
+
+<div mat-dialog-actions>
+    <div fxFlex></div>
+    <div fxLayoutAlign="end end">
+        <button mat-button [mat-dialog-close]>Cancel</button>
+        <button mat-button color="warn" [mat-dialog-close]="'ok'" cdkFocusInitial>Ok</button>
+    </div>
+</div>

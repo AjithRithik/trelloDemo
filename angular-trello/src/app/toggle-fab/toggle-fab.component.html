@@ -1,0 +1,22 @@
+<div fxFlex fxLayout="row-reverse"> 
+    <div>
+        <button mat-mini-fab (click)="onToggleFab()" matTooltipPosition="above" matTooltip="Click to toggle">
+            <mat-icon [@fabToggler]="{value: fabTogglerState}">menu</mat-icon>
+        </button>
+    </div>
+    <div [@speedDialStagger]="buttons.length" fxFlex fxLayout="row-reverse">
+        <div *ngFor="let btn of buttons">
+            <button *ngIf="(btn.key === 'CLEAR' && data.taskList.length > 0)" mat-mini-fab (click)="triggerParent(btn)" matTooltipPosition="above" class="mr10" [matTooltip]="btn.value">
+                <mat-icon>{{btn.icon}}</mat-icon>
+            </button>
+
+            <button *ngIf="btn.key === 'DELETE'" mat-mini-fab (click)="triggerParent(btn)" matTooltipPosition="above" class="mr10" [matTooltip]="btn.value">
+                <mat-icon>{{btn.icon}}</mat-icon>
+            </button>
+
+            <button *ngIf="btn.key=== 'ADD'" mat-mini-fab (click)="triggerParent(btn)" matTooltipPosition="above" class="mr10" [matTooltip]="btn.value">
+                <mat-icon>{{btn.icon}}</mat-icon>
+            </button>
+        </div>
+    </div>
+</div>

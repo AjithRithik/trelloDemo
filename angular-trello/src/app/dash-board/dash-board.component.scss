@@ -1,0 +1,19 @@
+.createbn{
+    min-width: 250px;
+    min-height: 150px;
+    max-width: 250px;
+    max-height: 150px;
+    background: rgba(255, 255, 255, 0.5);
+}
+
+.radius10{
+    border-radius: 10px;
+}
+
+.dashBoardLayout{
+    position: absolute;
+    height: calc(100% - 55px);
+    width: 100%;
+    overflow: auto;
+    padding: 30px;
+}

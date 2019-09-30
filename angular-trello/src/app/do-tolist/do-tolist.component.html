@@ -1,0 +1,107 @@
+<!-- Doto list component star-->
+<div fxFlex>
+    <!-- Card Start-->
+    <mat-card class="w300 p0 bg-grey">
+        <!-- Title Section-->
+        <div class="p10">
+            <div fxLayout="row" fxLayoutAlign="center center" *ngIf="!items.isUpdate">
+                <div class="pointer ellipse w150 center" [matTooltip]="items.taskListName"
+                (click)="!items.isDefault && showInput()">{{items.taskListName}}</div>   
+            </div>
+            <div *ngIf="items.isUpdate">
+                <mat-form-field>
+                    <input matInput name="taskName" [(ngModel)]="items.taskListName" (blur)="editTaskName(items)"/>
+                </mat-form-field>
+            </div>
+        </div>
+        <!-- Title section end-->
+        
+        <!-- Content Section Start-->
+        <mat-card-content>
+            <div resize class="overflowAuto" #scrollElement>
+                <div
+                    cdkDropList
+                    id="{{items.tasklistId}}"
+                    [cdkDropListData]="items.taskList"
+                    class="drag-list"
+                    [cdkDropListConnectedTo]="connected"
+                    (cdkDropListDropped)="drop($event)">
+                    
+                    <div *ngIf="items.taskList && items.taskList.length > 0">
+                            <div class="p8 drag-box" *ngFor="let item of items.taskList; index as i" cdkDrag
+                            (mouseover)="item.showEdit = true" (mouseleave)="item.showEdit = false">
+                            <mat-card class="p8" *ngIf="!item.disabled">
+                                <div fxLayout="row" class="f16">
+                                    <div fxFlex *ngIf="!item.showUpdate">{{item.taskName}}</div> 
+                                    <div>
+                                        <div fxLayoutAlign="end center" *ngIf="!item.showUpdate && item.showEdit" class="pointer">
+                                            <div class="hoverIcon" (click)="item.showUpdate = true; item.copyValue = item.taskName; setInputFocus()">
+                                                <mat-icon class="f16">edit</mat-icon>
+                                            </div>
+                                            <div class="hoverIcon pl10" (click)="deleteItem(i)">
+                                                <mat-icon class="f16">delete</mat-icon>
+                                            </div>
+                                        </div>
+                                        
+                                        <div *ngIf="item.showUpdate">
+                                            <mat-form-field>
+                                                <input matInput  [(ngModel)]="item.taskName" (blur)="editTask(item)">
+                                            </mat-form-field>
+                                        </div>
+    
+                                    </div> 
+                                </div>
+                            </mat-card>
+                         </div>
+                    </div>
+
+                    <div class="p5" cdkDrag [cdkDragDisabled]="true">
+                        <button mat-button class="w100p" *ngIf="items.taskList.length == 0 && !showAddSection" (click)="showAddSection = true; scrollToBottom()">
+                                Click to create new task
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Add Input Start-->
+                <form #addForm="ngForm">
+                    <div fxLayout="column" *ngIf="showAddSection">
+                        <!-- Input Section-->
+                        <div class="pl10">
+                            <mat-form-field class="w200 m0">
+                                <input matInput type="text" name="task" placeholder="task" [(ngModel)]="taskValue" cdkFocusInitial="true">
+                                <button type="button" mat-button *ngIf="taskValue" matSuffix mat-icon-button aria-label="Clear" (click)="taskValue=''">
+                                    <mat-icon>close</mat-icon>
+                                </button>
+                            </mat-form-field> 
+                        </div>
+    
+                        <!-- button section-->
+                        <div fxLayout="row" class="pl10 pb10">
+                            <div>
+                                <button mat-flat-button color="primary" (click)="addTask(taskValue)" [disabled]="!taskValue || (taskValue && taskValue.trim() === '')">add</button>
+                            </div>
+                            <div class="pl5">
+                                <mat-icon class="pt5 pointer" (click)="showAddSection = false">close</mat-icon>
+                            </div>
+                        </div>
+                    </div>  
+                </form>
+                <!-- Add Input End-->
+            </div>
+        </mat-card-content>
+        <!-- Content section end-->
+    </mat-card>
+    <!-- Card End--> 
+</div>
+<!-- Doto list component End--> 
+
+<div class="absolute r30 t0" *ngIf="!showAddSection">
+    <app-toggle-fab [data]="items" (triggerClick)="onButtonClick($event)"></app-toggle-fab>
+</div>
+
+<div *ngIf="items.taskList.length > 0" class="absolute t0 l30">
+    <button mat-mini-fab color="bgWhite">
+        {{items.taskList.length}}
+    </button>
+</div>  
+
