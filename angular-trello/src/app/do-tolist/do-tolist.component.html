@@ -6,11 +6,11 @@
         <div class="p10">
             <div fxLayout="row" fxLayoutAlign="center center" *ngIf="!items.isUpdate">
                 <div class="pointer ellipse w150 center" [matTooltip]="items.taskListName"
-                (click)="!items.isDefault && showInput()">{{items.taskListName}}</div>   
+                (click)="!items.isDefault && showInput()">{{items.taskListName}}</div>   <!-- isDafault 1 is the default list we wont allow to edit or delete the list-->
             </div>
             <div *ngIf="items.isUpdate">
                 <mat-form-field>
-                    <input matInput name="taskName" [(ngModel)]="items.taskListName" (blur)="editTaskName(items)"/>
+                    <input matInput autocomplete="off" name="taskName" [(ngModel)]="items.taskListName" (blur)="editTaskName(items)"/>
                 </mat-form-field>
             </div>
         </div>
@@ -45,7 +45,7 @@
                                         
                                         <div *ngIf="item.showUpdate">
                                             <mat-form-field>
-                                                <input matInput  [(ngModel)]="item.taskName" (blur)="editTask(item)">
+                                                <input matInput autocomplete="off" [(ngModel)]="item.taskName" (blur)="editTask(item)">
                                             </mat-form-field>
                                         </div>
     
@@ -68,7 +68,7 @@
                         <!-- Input Section-->
                         <div class="pl10">
                             <mat-form-field class="w200 m0">
-                                <input matInput type="text" name="task" placeholder="task" [(ngModel)]="taskValue" cdkFocusInitial="true">
+                                <input matInput autocomplete="off" type="text" name="task" placeholder="task" [(ngModel)]="taskValue" cdkFocusInitial="true">
                                 <button type="button" mat-button *ngIf="taskValue" matSuffix mat-icon-button aria-label="Clear" (click)="taskValue=''">
                                     <mat-icon>close</mat-icon>
                                 </button>
