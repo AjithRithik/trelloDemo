@@ -3,7 +3,7 @@
   <div mat-dialog-title *ngIf="data.from === 'CREATE_TASK'">Create List</div>
   <div mat-dialog-content>
     <mat-form-field>
-      <input matInput name="taskTitel" placeholder="Title" [(ngModel)]="data.title" cdkFocusInitial="true">
+      <input matInput name="taskTitel" autocomplete="off" placeholder="Title" [(ngModel)]="data.title" cdkFocusInitial="true">
     </mat-form-field>
   </div>
   <div mat-dialog-actions>
